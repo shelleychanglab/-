@@ -520,8 +520,10 @@ function submitExam() {
   }).join('\n');
   const subject = encodeURIComponent(`【眼疾病學研討期中】${record.name} ${record.sid} ${record.cls}班 ${record.score}分`);
   const body = encodeURIComponent(`姓名：${record.name}\n學號：${record.sid}\n班級：${record.cls}\n分數：${record.score} 分\n答對：${record.correct} / 30 題\n繳交時間：${record.time}\n\n各題作答：\n${answerList}`);
-  window.location.href = `mailto:shelley09832420@gmail.com?subject=${subject}&body=${body}`;
   showResult(record);
+  setTimeout(() => {
+    window.location.href = `mailto:shelley09832420@gmail.com?subject=${subject}&body=${body}`;
+  }, 1500);
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
