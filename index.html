@@ -506,40 +506,13 @@ function submitExam() {
     answers: studentAns, score, correct,
     time: new Date().toLocaleString('zh-TW')
   };
-  // save locally
+  // save
   const all = JSON.parse(localStorage.getItem('eyeExam_submissions') || '[]');
   all.push(record);
   localStorage.setItem('eyeExam_submissions', JSON.stringify(all));
   // stop timer
   clearInterval(timerInterval);
-  // send email
-  const answerList = Array.from({length:30},(_,i)=>{
-    const ans = record.answers[i+1] || '未作答';
-    const ok = isCorrect(i+1, record.answers[i+1]) ? '✓' : '✗';
-    return `Q${i+1}: ${ans} ${ok}`;
-  }).join('\n');
-  const subject = encodeURIComponent(`【眼疾病學研討期中】${record.name} ${record.sid} ${record.cls}班 ${record.score}分`);
-  const body = encodeURIComponent(`姓名：${record.name}\n學號：${record.sid}\n班級：${record.cls}\n分數：${record.score} 分\n答對：${record.correct} / 30 題\n繳交時間：${record.time}\n\n各題作答：\n${answerList}`);
   showResult(record);
-  const mailtoLink = `mailto:shelley09832420@gmail.com?subject=${subject}&body=${body}`;
-  setTimeout(() => {
-    const emailWrap = document.createElement('div');
-    emailWrap.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:#1a5276;color:white;padding:1rem 1.5rem;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.25);z-index:999;font-family:inherit;max-width:320px';
-    const btn = document.createElement('button');
-    btn.textContent = '寄出成績給老師 ✉';
-    btn.style.cssText = 'background:white;color:#1a5276;border:none;border-radius:8px;padding:0.5rem 1.25rem;font-weight:600;font-size:0.9rem;cursor:pointer;width:100%';
-    btn.onclick = () => { window.location.href = mailtoLink; emailWrap.remove(); };
-    const title = document.createElement('div');
-    title.style.cssText = 'font-size:0.9rem;font-weight:600;margin-bottom:0.5rem';
-    title.textContent = '📧 請寄出成績通知';
-    const desc = document.createElement('div');
-    desc.style.cssText = 'font-size:0.8rem;opacity:0.85;margin-bottom:0.75rem';
-    desc.textContent = '點下方按鈕，將您的成績寄給老師';
-    emailWrap.appendChild(title);
-    emailWrap.appendChild(desc);
-    emailWrap.appendChild(btn);
-    document.body.appendChild(emailWrap);
-  }, 800);
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
