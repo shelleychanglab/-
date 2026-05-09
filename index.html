@@ -12,8 +12,6 @@
     --accent-light: #d5f5e3;
     --danger: #c0392b;
     --danger-light: #fdecea;
-    --warning: #d68910;
-    --warning-light: #fef9e7;
     --gray-100: #f4f6f9;
     --gray-200: #e8ecf1;
     --gray-400: #a0aab8;
@@ -24,189 +22,103 @@
     --radius: 10px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-900);
-    min-height: 100vh;
-  }
-  /* ── HEADER ── */
+  body { font-family: 'Microsoft JhengHei', sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; }
   header {
-    background: var(--primary);
-    color: white;
-    padding: 1.25rem 2rem;
+    background: var(--primary); color: white; padding: 1.25rem 2rem;
     display: flex; align-items: center; gap: 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18); position: sticky; top: 0; z-index: 100;
   }
-  header .logo { font-size: 1.5rem; }
   header h1 { font-size: 1.1rem; font-weight: 600; line-height: 1.3; flex: 1; }
   header h1 small { font-size: 0.8rem; opacity: 0.75; display: block; font-weight: 400; }
   .mode-switch { display: flex; gap: 0.5rem; }
   .mode-btn {
     background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
     color: white; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer;
-    font-size: 0.85rem; font-family: inherit; transition: background 0.2s;
+    font-size: 0.85rem; font-family: inherit;
   }
-  .mode-btn.active, .mode-btn:hover { background: rgba(255,255,255,0.3); }
-  /* ── VIEWS ── */
+  .mode-btn.active { background: rgba(255,255,255,0.3); }
+  .timer-wrap { display: none; align-items: center; gap: 0.75rem; }
+  .timer { background: rgba(255,255,255,0.2); border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.9rem; font-family: monospace; font-weight: 600; color: white; }
+  .timer.warning { background: rgba(231,76,60,0.7); }
   .view { display: none; }
   .view.active { display: block; }
-  /* ── STUDENT VIEW ── */
-  .student-wrap { max-width: 820px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
-  .exam-info {
-    background: white; border-radius: var(--radius); border: 1px solid var(--border);
-    padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1.5rem;
-    align-items: flex-start; box-shadow: var(--shadow);
-  }
-  .exam-info-field { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
-  .exam-info-field label { font-size: 0.75rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.05em; }
-  .exam-info-field input {
-    border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.6rem;
-    font-size: 0.95rem; font-family: inherit; background: var(--gray-100);
-    transition: border-color 0.2s;
-  }
-  .exam-info-field input:focus { outline: none; border-color: var(--primary); background: white; }
-  .progress-bar-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border);
-    padding: 0.9rem 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
-  .progress-bar-wrap p { font-size: 0.82rem; color: var(--gray-700); margin-bottom: 0.5rem; }
-  .progress-bar { height: 8px; background: var(--gray-200); border-radius: 99px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background: var(--primary); border-radius: 99px; transition: width 0.4s; }
-  .q-card {
-    background: white; border-radius: var(--radius); border: 1px solid var(--border);
-    padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: var(--shadow);
-    transition: border-color 0.2s;
-  }
+  .wrap { max-width: 820px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+  .exam-info { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1.5rem; box-shadow: var(--shadow); }
+  .field { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+  .field label { font-size: 0.75rem; color: var(--gray-400); text-transform: uppercase; }
+  .field input { border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.95rem; font-family: inherit; background: var(--gray-100); }
+  .field input:focus { outline: none; border-color: var(--primary); background: white; }
+  .prog-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 0.9rem 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  .prog-wrap p { font-size: 0.82rem; color: var(--gray-700); margin-bottom: 0.5rem; }
+  .prog-bar { height: 8px; background: var(--gray-200); border-radius: 99px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--primary); border-radius: 99px; transition: width 0.4s; }
+  .q-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: var(--shadow); }
   .q-card.answered { border-color: #b3c8e0; }
-  .q-num { font-size: 0.75rem; font-weight: 600; color: var(--primary); text-transform: uppercase;
-    letter-spacing: 0.06em; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
-  .q-num .badge { background: var(--primary); color: white; border-radius: 99px;
-    padding: 0.15rem 0.5rem; font-size: 0.7rem; }
-  .q-text { font-size: 0.97rem; line-height: 1.7; margin-bottom: 1rem; color: var(--gray-900); }
+  .q-num { font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+  .q-num .badge { background: var(--primary); color: white; border-radius: 99px; padding: 0.15rem 0.5rem; font-size: 0.7rem; }
+  .q-text { font-size: 0.97rem; line-height: 1.7; margin-bottom: 1rem; }
   .q-text em { font-style: normal; color: var(--primary); font-weight: 500; }
   .options { display: flex; flex-direction: column; gap: 0.55rem; }
-  .option-label {
-    display: flex; align-items: flex-start; gap: 0.75rem;
-    padding: 0.65rem 0.9rem; border-radius: 8px; border: 1px solid var(--border);
-    cursor: pointer; transition: all 0.15s; font-size: 0.92rem; line-height: 1.5;
-  }
-  .option-label:hover { background: var(--primary-light); border-color: #a9c9e8; }
-  .option-label input[type=radio] { margin-top: 2px; accent-color: var(--primary); flex-shrink: 0; }
-  .option-label.selected { background: var(--primary-light); border-color: var(--primary); }
-  /* ── SUBMIT ── */
-  .submit-section { text-align: center; margin-top: 2rem; }
-  .btn-submit {
-    background: var(--primary); color: white; border: none; border-radius: var(--radius);
-    padding: 0.85rem 3rem; font-size: 1.05rem; font-family: inherit; font-weight: 600;
-    cursor: pointer; box-shadow: 0 4px 15px rgba(26,82,118,0.35); transition: all 0.2s;
-    letter-spacing: 0.03em;
-  }
-  .btn-submit:hover { background: #154360; transform: translateY(-1px); }
-  .btn-submit:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
+  .opt { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.65rem 0.9rem; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; font-size: 0.92rem; line-height: 1.5; }
+  .opt:hover { background: var(--primary-light); border-color: #a9c9e8; }
+  .opt input { margin-top: 2px; accent-color: var(--primary); flex-shrink: 0; }
+  .opt.selected { background: var(--primary-light); border-color: var(--primary); }
+  .submit-area { text-align: center; margin-top: 2rem; }
+  .btn-submit { background: var(--primary); color: white; border: none; border-radius: var(--radius); padding: 0.85rem 3rem; font-size: 1.05rem; font-family: inherit; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(26,82,118,0.35); }
   .submit-note { margin-top: 0.75rem; font-size: 0.82rem; color: var(--gray-400); }
-  /* ── RESULT ── */
-  #result-view { max-width: 820px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
-  .result-card {
-    background: white; border-radius: var(--radius); border: 1px solid var(--border);
-    padding: 2rem; margin-bottom: 1.5rem; text-align: center; box-shadow: var(--shadow);
-  }
-  .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); line-height: 1; }
-  .score-display span { font-size: 1.5rem; color: var(--gray-400); font-weight: 400; }
-  .score-label { font-size: 0.9rem; color: var(--gray-400); margin-top: 0.5rem; }
+  .result-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 2rem; margin-bottom: 1.5rem; text-align: center; box-shadow: var(--shadow); }
+  .score-big { font-size: 4rem; font-weight: 700; color: var(--primary); line-height: 1; }
+  .score-big span { font-size: 1.5rem; color: var(--gray-400); font-weight: 400; }
+  .score-sub { font-size: 0.9rem; color: var(--gray-400); margin-top: 0.5rem; }
   .score-grade { font-size: 1.25rem; font-weight: 600; margin-top: 0.75rem; }
-  .review-card {
-    background: white; border-radius: var(--radius); border: 1px solid var(--border);
-    padding: 1.4rem 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow);
-  }
+  .review-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.4rem 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
   .review-card.correct { border-left: 4px solid var(--accent); }
   .review-card.wrong { border-left: 4px solid var(--danger); }
-  .review-status { font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; }
+  .review-status { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
   .review-status.ok { color: var(--accent); }
   .review-status.err { color: var(--danger); }
-  .review-answer { margin-top: 0.6rem; font-size: 0.88rem; }
-  .review-answer .correct-ans { color: var(--accent); font-weight: 600; }
-  .review-answer .student-ans { color: var(--danger); }
-  .review-answer .correct-same { color: var(--accent); }
-  .explanation { margin-top: 0.6rem; padding: 0.6rem 0.8rem; background: var(--gray-100);
-    border-radius: 6px; font-size: 0.85rem; color: var(--gray-700); line-height: 1.6; }
-  /* ── TEACHER VIEW ── */
-  #teacher-view { max-width: 960px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
-  .teacher-header {
-    background: white; border-radius: var(--radius); border: 1px solid var(--border);
-    padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .teacher-header h2 { font-size: 1.2rem; color: var(--primary); }
-  .teacher-header .stats { display: flex; gap: 1.5rem; }
-  .stat { text-align: center; }
+  .review-ans { margin-top: 0.5rem; font-size: 0.88rem; }
+  .correct-ans { color: var(--accent); font-weight: 600; }
+  .wrong-ans { color: var(--danger); }
+  .teacher-wrap { max-width: 960px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+  .teacher-head { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; }
+  .teacher-head h2 { font-size: 1.2rem; color: var(--primary); }
+  .stats { display: flex; gap: 1.5rem; }
   .stat .val { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
   .stat .lbl { font-size: 0.75rem; color: var(--gray-400); }
-  .submissions-table {
-    background: white; border-radius: var(--radius); border: 1px solid var(--border);
-    overflow: hidden; box-shadow: var(--shadow);
-  }
+  .tbl-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
   table { width: 100%; border-collapse: collapse; }
   thead { background: var(--primary); color: white; }
-  th { padding: 0.75rem 1rem; text-align: left; font-size: 0.85rem; font-weight: 500; }
+  th { padding: 0.75rem 1rem; text-align: left; font-size: 0.85rem; }
   td { padding: 0.75rem 1rem; font-size: 0.88rem; border-bottom: 1px solid var(--gray-200); }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--gray-100); }
-  .score-pill {
-    display: inline-block; padding: 0.2rem 0.65rem; border-radius: 99px;
-    font-weight: 600; font-size: 0.82rem;
-  }
-  .score-pill.pass { background: var(--accent-light); color: var(--accent); }
-  .score-pill.fail { background: var(--danger-light); color: var(--danger); }
-  .btn-detail {
-    background: var(--primary-light); color: var(--primary); border: 1px solid #a9c9e8;
-    border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.8rem; cursor: pointer;
-    font-family: inherit; transition: background 0.15s;
-  }
-  .btn-detail:hover { background: #b3cfe8; }
-  .btn-export {
-    background: var(--accent); color: white; border: none; border-radius: 8px;
-    padding: 0.55rem 1.25rem; font-size: 0.9rem; font-family: inherit; cursor: pointer;
-    font-weight: 500; transition: background 0.2s;
-  }
-  .btn-export:hover { background: #145a32; }
-  .empty-state { text-align: center; padding: 3rem; color: var(--gray-400); font-size: 0.95rem; }
-  .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.45);
-    display: flex; align-items: center; justify-content: center; z-index: 200;
-    padding: 1rem; display: none;
-  }
+  .pill { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 99px; font-weight: 600; font-size: 0.82rem; }
+  .pill.pass { background: var(--accent-light); color: var(--accent); }
+  .pill.fail { background: var(--danger-light); color: var(--danger); }
+  .btn-sm { background: var(--primary-light); color: var(--primary); border: 1px solid #a9c9e8; border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.8rem; cursor: pointer; font-family: inherit; }
+  .btn-export { background: var(--accent); color: white; border: none; border-radius: 8px; padding: 0.55rem 1.25rem; font-size: 0.9rem; font-family: inherit; cursor: pointer; font-weight: 500; }
+  .btn-danger { background: var(--danger); color: white; border: none; border-radius: 8px; padding: 0.55rem 1.25rem; font-size: 0.9rem; font-family: inherit; cursor: pointer; font-weight: 500; }
+  .empty { text-align: center; padding: 3rem; color: var(--gray-400); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: white; border-radius: 14px; max-width: 700px; width: 100%;
-    max-height: 85vh; overflow-y: auto; padding: 2rem;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  }
+  .modal { background: white; border-radius: 14px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
   .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
   .modal-header h3 { font-size: 1.1rem; color: var(--primary); }
-  .modal-close { background: var(--gray-200); border: none; border-radius: 6px;
-    padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.85rem; font-family: inherit; }
-  .modal-close:hover { background: var(--gray-400); color: white; }
-  /* timer */
-  .timer-wrap { display: flex; align-items: center; gap: 0.75rem; }
-  .timer { background: rgba(255,255,255,0.2); border-radius: 6px; padding: 0.3rem 0.7rem;
-    font-size: 0.9rem; font-family: monospace; font-weight: 600; color: white; }
-  .timer.warning { background: rgba(231,76,60,0.7); }
-  @media(max-width:600px) {
-    header { padding: 0.9rem 1rem; }
-    header h1 { font-size: 0.95rem; }
-    .exam-info { flex-direction: column; gap: 0.75rem; }
-    .score-display { font-size: 2.8rem; }
-  }
+  .modal-close { background: var(--gray-200); border: none; border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-family: inherit; }
+  #email-float { display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--primary); color: white; padding: 1.25rem 1.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 9999; max-width: 300px; text-align: center; }
+  #email-float .ef-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
+  #email-float .ef-desc { font-size: 0.8rem; opacity: 0.85; margin-bottom: 0.8rem; }
+  #email-float a { display: block; background: white; color: var(--primary); border-radius: 8px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.95rem; text-decoration: none; }
+  @media(max-width:600px) { header { padding: 0.9rem 1rem; } .exam-info { flex-direction: column; } .score-big { font-size: 2.8rem; } }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">🏥</div>
+  <div style="font-size:1.5rem">🏥</div>
   <h1>臨床眼疾病學研討<small>114-2｜五專視光科 501/502 班｜期中考</small></h1>
-  <div class="timer-wrap" id="timerWrap" style="display:none">
+  <div class="timer-wrap" id="timerWrap">
     <span style="font-size:0.8rem;opacity:0.75">剩餘時間</span>
     <div class="timer" id="timer">75:00</div>
   </div>
@@ -216,67 +128,48 @@
   </div>
 </header>
 
-<!-- ══════════════════════════════════════════════════════ STUDENT VIEW -->
 <div class="view active" id="student-view">
-  <div class="student-wrap">
-
+  <div class="wrap">
     <div class="exam-info">
-      <div class="exam-info-field">
-        <label>班級</label>
-        <input type="text" id="s-class" placeholder="例：501">
-      </div>
-      <div class="exam-info-field">
-        <label>學號</label>
-        <input type="text" id="s-id" placeholder="學號">
-      </div>
-      <div class="exam-info-field" style="flex:2">
-        <label>姓名</label>
-        <input type="text" id="s-name" placeholder="請輸入姓名">
-      </div>
+      <div class="field"><label>班級</label><input type="text" id="s-class" placeholder="例：501"></div>
+      <div class="field"><label>學號</label><input type="text" id="s-id" placeholder="學號"></div>
+      <div class="field" style="flex:2"><label>姓名</label><input type="text" id="s-name" placeholder="請輸入姓名"></div>
     </div>
-
-    <div class="progress-bar-wrap">
+    <div class="prog-wrap">
       <p>答題進度：<strong id="prog-text">0 / 30</strong> 題</p>
-      <div class="progress-bar"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
-
-    <div id="questions-container"></div>
-
-    <div class="submit-section">
-      <button class="btn-submit" id="submitBtn" onclick="submitExam()">繳交試卷</button>
+    <div id="qcontainer"></div>
+    <div class="submit-area">
+      <button class="btn-submit" onclick="submitExam()">繳交試卷</button>
       <p class="submit-note">繳交後無法更改，請確認所有題目皆已作答</p>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════ RESULT VIEW -->
 <div class="view" id="result-view"></div>
 
-<!-- ══════════════════════════════════════════════════════ TEACHER VIEW -->
 <div class="view" id="teacher-view">
-  <div style="max-width:960px;margin:2rem auto;padding:0 1.5rem 4rem">
-
-    <div class="teacher-header">
+  <div class="teacher-wrap">
+    <div class="teacher-head">
       <div>
         <h2>📋 教師閱卷面板</h2>
-        <p style="font-size:0.82rem;color:var(--gray-400);margin-top:0.25rem">所有學生繳交記錄（儲存於本瀏覽器）</p>
+        <p style="font-size:0.82rem;color:var(--gray-400);margin-top:0.25rem">所有學生繳交記錄</p>
       </div>
       <div style="display:flex;gap:0.75rem;align-items:center">
-        <div class="stats" id="teacher-stats">
+        <div class="stats">
           <div class="stat"><div class="val" id="st-count">0</div><div class="lbl">繳交人數</div></div>
           <div class="stat"><div class="val" id="st-avg">—</div><div class="lbl">平均分數</div></div>
           <div class="stat"><div class="val" id="st-pass">—</div><div class="lbl">及格率</div></div>
         </div>
         <button class="btn-export" onclick="exportCSV()">⬇ 匯出 CSV</button>
-        <button class="btn-export" style="background:var(--danger)" onclick="clearAll()">🗑 清除所有記錄</button>
+        <button class="btn-danger" onclick="clearAll()">🗑 清除記錄</button>
       </div>
     </div>
-
-    <div class="submissions-table" id="teacher-table-wrap"></div>
+    <div class="tbl-wrap" id="tbl-wrap"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════ DETAIL MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-header">
@@ -287,11 +180,14 @@
   </div>
 </div>
 
+<div id="email-float">
+  <div class="ef-title">📧 請寄出成績通知</div>
+  <div class="ef-desc">點下方按鈕將成績寄給老師</div>
+  <a id="email-link" href="#">✉ 寄出成績給老師</a>
+</div>
+
 <script>
-// ══════════════════════════════════════════════════════════════════════════════
-//  ANSWER KEY  (1-indexed, A/B/C/D)
-// ══════════════════════════════════════════════════════════════════════════════
-const ANSWERS = {
+var ANSWERS = {
   1:'C', 2:'B', 3:'B', 4:'B', 5:'D',
   6:'C', 7:'A', 8:'B', 9:'A', 10:'C',
   11:'C', 12:'D', 13:'A', 14:'D', 15:'A',
@@ -300,313 +196,199 @@ const ANSWERS = {
   26:'B', 27:'A', 28:'B', 29:'A', 30:'C'
 };
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  QUESTION DATA
-// ══════════════════════════════════════════════════════════════════════════════
-const QUESTIONS = [
-  {
-    q: '下列何者<em>不是</em>眼瞼下垂常見的成因？',
-    opts: ['(A) 動眼神經麻痺', '(B) 霍納氏症候群', '(C) 甲狀腺亢進', '(D) 重症肌無力']
-  },
-  {
-    q: '一位50歲女性抱怨眼睛經常覺得乾澀，有時睡覺起來甚至會特別疼痛，經檢查發現閉眼時上下眼皮仍有一道縫隙，下列描述<em>何者錯誤</em>？',
-    opts: ['(A) 如果伴隨甲狀腺亢進，要考慮是否為甲狀腺眼疾造成的閉合不全', '(B) 如果合併半側臉部歪斜或腦部外傷手術史，要考慮第五對腦神經麻痺所造成', '(C) 輕微者可使用人工淚液或潤滑凝膠，以保護角膜並減輕症狀', '(D) 嚴重者可能要進行手術']
-  },
-  {
-    q: '一位70歲男性主訴眼睛異物感、流淚且紅眼，每隔一至兩個月去診所拔睫毛，拔完可短暫改善，但還是會再復發，下列何者<em>正確</em>？',
-    opts: ['(A) 他可能有眼瞼外翻的現象', '(B) 此狀況可能導因於老化或曾經發炎造成瘢痕', '(C) 小朋友不會有此種病症發生', '(D) 即使手術治療也無法一勞永逸改善此問題']
-  },
-  {
-    q: '關於霰粒腫（Chalazion），下列<em>何者正確</em>？',
-    opts: ['(A) 通常由細菌感染引起，伴隨明顯疼痛', '(B) 為瞼板腺無菌性肉芽反應', '(C) 多發生於下眼瞼且會快速化膿', '(D) 一定需要立即使用全身性抗生素治療']
-  },
-  {
-    q: '一位85歲女性，右上眼瞼反覆出現無痛性腫塊數月，初期診斷為霰粒腫並接受切開刮除，但短期內復發，且病灶邊緣不規則、伴隨睫毛脫落。下列<em>最可能</em>診斷為何？',
-    opts: ['(A) 慢性霰粒腫', '(B) 眼瞼鱗狀細胞癌', '(C) 眼瞼基底細胞癌', '(D) 皮脂腺癌']
-  },
-  {
-    q: '白內障有許多不同的型態，下列型態和患者症狀的配對，<em>何者正確</em>？',
-    opts: ['(A) 核性白內障 — 單眼複視', '(B) 皮質白內障 — 視力早期就很明顯下降', '(C) 後囊下白內障 — 強光下更模糊、眩光', '(D) 二次白內障 — 近視度數加深']
-  },
-  {
-    q: '造成白內障的風險因子相關描述，<em>何者錯誤</em>？',
-    opts: ['(A) 老化引起的白內障是可逆的', '(B) 系統疾病中最常見引起白內障的是糖尿病', '(C) 因外力撞擊眼睛可能導致白內障', '(D) 抽菸也是白內障的風險因子']
-  },
-  {
-    q: '下列藥物<em>何者</em>被證實最容易誘發白內障？',
-    opts: ['(A) 降血脂藥物', '(B) 類固醇', '(C) 精神科藥物', '(D) 抗心律不整藥物']
-  },
-  {
-    q: '下列疾病和水晶體異位較<em>沒有</em>關係？',
-    opts: ['(A) 異位性皮膚炎', '(B) 馬凡氏症候群', '(C) 高胱胺酸尿症', '(D) 小晶體症']
-  },
-  {
-    q: '關於白內障手術的敘述，下列<em>何者錯誤</em>？',
-    opts: ['(A) 現今常見手術方式為超音波乳化術（phacoemulsification）', '(B) 手術順利移除混濁的晶體後，會植入人工水晶體（IOL）', '(C) 小孩的白內障手術無論單眼還是雙眼都是要在一個月大左右手術', '(D) 手術時機通常取決於視力對日常生活的影響']
-  },
-  {
-    q: '關於眼壓的描述，下列<em>何者正確</em>？',
-    opts: ['(A) 一天當中眼壓早上較低，下午較高', '(B) 眼壓低於20mmHg一定不會有青光眼', '(C) 準確的眼壓測量值需要校正角膜厚度', '(D) 眼壓和血壓成正比關係']
-  },
-  {
-    q: '下列<em>何者不是</em>診斷青光眼所需要的檢查工具？',
-    opts: ['(A) 眼底杯盤比檢查', '(B) 視神經纖維層分析', '(C) 視野檢查', '(D) 電生理檢查']
-  },
-  {
-    q: '隅角閉鎖型的青光眼危險因子有哪些？<br><small>（1）近視 （2）遠視 （3）外傷 （4）過熟型白內障 （5）類固醇 （6）散瞳劑 （7）男性 （8）女性</small>',
-    opts: ['(A) (2)(3)(4)(6)(8)', '(B) (2)(5)(6)(8)', '(C) (1)(3)(4)(6)(8)', '(D) (1)(3)(4)(5)(6)']
-  },
-  {
-    q: '關於水晶體引起的青光眼（lens-induced glaucoma），下列<em>何者正確</em>？',
-    opts: ['(A) 僅發生於先天性白內障患者', '(B) 與水晶體大小或位置無關', '(C) 所有病例皆為隅角開角型青光眼', '(D) 過熟白內障可能導致眼壓上升']
-  },
-  {
-    q: '青光眼藥物與其常見副作用的配對，下列<em>何者錯誤</em>？',
-    opts: ['(A) 腎上腺素受體促進劑 (α2 agonist) — 腎功能變差', '(B) 乙型阻斷劑 (β blocker) — 氣喘發作', '(C) 碳酸肝酶抑制劑 (carbonate anhydrase inhibitor) — 手腳發麻', '(D) 前列腺素類似物 (prostaglandin analog) — 睫毛變長']
-  },
-  {
-    q: '有關結膜炎之敘述，下列<em>何者錯誤</em>？',
-    opts: ['(A) 共通症狀常為流淚、砂礫感、刺痛、灼熱', '(B) 病毒感染引起的較常為膿性（purulent）分泌物', '(C) 過敏性結膜炎較常為粘液性（mucoid）分泌物', '(D) 砂眼則較常為粘液膿性（mucopurulent）分泌物']
-  },
-  {
-    q: '關於圓錐角膜之敘述，下列<em>何者錯誤</em>？（可能有兩個答案，答對任一或複選都給分）',
-    opts: ['(A) 疾病初期視力模糊是唯一症狀', '(B) 和許多疾病皆有相關，如唐氏症、異位性皮膚炎、視網膜色素病變等', '(C) 進程緩慢，屈光異常症狀通常始於20多歲，於40多歲趨於穩定', '(D) 疾病徵象包含後彈力層中央線性皺褶（Vogt\'s lines）、棕綠色環（Kayser-Fleischer rings）及Munson氏徵象']
-  },
-  {
-    q: '下列有關棘狀阿米巴角膜炎的敘述，<em>何者錯誤</em>？',
-    opts: ['(A) 配戴隱形眼鏡是其危險因子之一', '(B) 病人通常不會有明顯疼痛的症狀', '(C) 角膜典型表現為角膜環狀浸潤', '(D) 無法及時給予抗原蟲藥物是預後不佳的成因之一']
-  },
-  {
-    q: '一位70歲男性最近幾日右前額和鼻尖出現水泡，右眼有紅腫和模糊，裂隙燈螢光染色發現角膜有樹枝狀潰瘍，此患者最有可能的診斷為何？',
-    opts: ['(A) 流行性角膜結膜炎', '(B) 暴露性角膜病變', '(C) 疱疹性角膜炎', '(D) 上輪部角結膜炎（superior limbic keratoconjunctivitis）']
-  },
-  {
-    q: '新生兒經產道感染的結膜炎，<em>較少見</em>的是下列何者？',
-    opts: ['(A) 葡萄球菌類（staphylococci）例如金黃色葡萄球菌', '(B) 奈瑟氏淋病雙球菌（N. gonorrhoeae）', '(C) 單純皰疹病毒（herpes simplex virus）', '(D) 披衣菌（C. trachomatis）']
-  },
-  {
-    q: '角膜水腫合併大疱性角膜病變（bullous keratopathy），主要是何種角膜結構發生病變導致功能異常所致？',
-    opts: ['(A) 角膜上皮細胞層', '(B) 角膜內皮細胞層', '(C) 角膜基質層', '(D) 前彈力層（Bowman\'s membrane）']
-  },
-  {
-    q: '有關翼狀贅片（pterygium）的敘述，下列<em>何者錯誤</em>？',
-    opts: ['(A) 常見於戶外工作常接觸陽光、塵土飛揚、強風的人', '(B) 通常出現在角膜的鼻側或顳側且侵犯到角膜', '(C) 可能影響外觀但不致於會影響戴隱形眼鏡', '(D) 其病理組織學變化和結膜黃斑（pinguecula）相類似']
-  },
-  {
-    q: '有關巨大乳突性結膜炎之敘述，下列<em>何者正確</em>？',
-    opts: ['(A) 典型症狀為癢與膿性分泌物', '(B) 類固醇為主要治療方式', '(C) 下眼瞼結膜易有巨大乳突產生', '(D) 和戴隱形眼鏡有關']
-  },
-  {
-    q: '有關季節性角結膜炎（vernal keratoconjunctivitis）之敘述，下列<em>何者正確</em>？',
-    opts: ['(A) 好發於年長女性', '(B) 臨床上，結膜病症常發生在下瞼板結膜', '(C) 常見的症狀之一是乾眼', '(D) 圓錐角膜（keratoconus）或角膜膨隆（corneal ectasia）發生率較一般人高']
-  },
-  {
-    q: '對於葡萄膜炎的敘述，下列<em>哪些正確</em>？<br><small>（1）可依主要發炎的解剖學位置分為前、中、後葡萄膜炎 （2）常見症狀為畏光與視力模糊 （3）有時和自體免疫疾病相關 （4）局部類固醇為主要治療選擇</small>',
-    opts: ['(A) (1)~(4)全部正確', '(B) 僅(1)(3)正確', '(C) 僅(1)(4)正確', '(D) 僅(4)正確']
-  },
-  {
-    q: '葡萄膜炎常見的併發症包括下列何者？<br><small>（1）白內障 （2）眼瞼下垂 （3）青光眼 （4）角膜失養症（dystrophy） （5）黃斑部水腫</small>',
-    opts: ['(A) (1)(2)(3)', '(B) (1)(3)(5)', '(C) (1)(4)(5)', '(D) (2)(3)(4)']
-  },
-  {
-    q: '有關角膜老人環（senile arcus / arcus senilis）的敘述，下列<em>何者錯誤</em>？',
-    opts: ['(A) 若出現於年紀大的老人患者，應特別留意抽血檢查膽固醇及三酸甘油脂', '(B) 通常是兩側性', '(C) 通常不會影響視力', '(D) 位置在角膜邊緣靠近輪部處']
-  },
-  {
-    q: '常伴隨葡萄膜炎的系統性疾病，<em>何者除外</em>？',
-    opts: ['(A) 類肉瘤（sarcoidosis）', '(B) 高血壓', '(C) 原田氏病（Vogt-Koyanagi-Harada disease）', '(D) 貝賽特氏病（Behcet\'s disease）']
-  },
-  {
-    q: '造成細菌性角膜炎（角膜潰瘍）的病原菌，較常見的有哪些？<br><small>（1）綠膿桿菌 （2）金黃色葡萄球菌 （3）表皮葡萄球菌 （4）鏈球菌 （5）大腸桿菌 （6）乳酸菌</small>',
-    opts: ['(A) (1)(2)(3)(4)', '(B) (2)(3)(4)(5)', '(C) (1)(3)(5)', '(D) (1)~(6)皆為常見造成角膜潰瘍的細菌']
-  },
-  {
-    q: '關於疾病診斷的基本觀念，下列<em>何者正確</em>？',
-    opts: ['(A) 病人主觀描述不舒服的狀況稱為「徵候」例如「左眼會癢」', '(B) 醫師檢查或儀器檢查發現的客觀狀況稱為「症狀」例如「眼壓過高」', '(C) 一個檢驗用於100名真正有病的患者中，95個陽性，則其敏感度（Sensitivity）為95%', '(D) 不論疾病盛行率為何，做了某個敏感度95%的檢驗結果為陽性，則患此病的機率就是95%']
-  }
+var QUESTIONS = [
+  {q:'下列何者<em>不是</em>眼瞼下垂常見的成因？',opts:['(A) 動眼神經麻痺','(B) 霍納氏症候群','(C) 甲狀腺亢進','(D) 重症肌無力']},
+  {q:'一位50歲女性抱怨眼睛經常覺得乾澀，有時睡覺起來甚至會特別疼痛，經檢查發現閉眼時上下眼皮仍有一道縫隙，下列描述<em>何者錯誤</em>？',opts:['(A) 如果伴隨甲狀腺亢進，要考慮是否為甲狀腺眼疾造成的閉合不全','(B) 如果合併半側臉部歪斜或腦部外傷手術史，要考慮第五對腦神經麻痺所造成','(C) 輕微者可使用人工淚液或潤滑凝膠，以保護角膜並減輕症狀','(D) 嚴重者可能要進行手術']},
+  {q:'一位70歲男性主訴眼睛異物感、流淚且紅眼，每隔一至兩個月去診所拔睫毛，拔完可短暫改善，但還是會再復發，下列何者<em>正確</em>？',opts:['(A) 他可能有眼瞼外翻的現象','(B) 此狀況可能導因於老化或曾經發炎造成瘢痕','(C) 小朋友不會有此種病症發生','(D) 即使手術治療也無法一勞永逸改善此問題']},
+  {q:'關於霰粒腫（Chalazion），下列<em>何者正確</em>？',opts:['(A) 通常由細菌感染引起，伴隨明顯疼痛','(B) 為瞼板腺無菌性肉芽反應','(C) 多發生於下眼瞼且會快速化膿','(D) 一定需要立即使用全身性抗生素治療']},
+  {q:'一位85歲女性，右上眼瞼反覆出現無痛性腫塊數月，初期診斷為霰粒腫並接受切開刮除，但短期內復發，且病灶邊緣不規則、伴隨睫毛脫落。下列<em>最可能</em>診斷為何？',opts:['(A) 慢性霰粒腫','(B) 眼瞼鱗狀細胞癌','(C) 眼瞼基底細胞癌','(D) 皮脂腺癌']},
+  {q:'白內障有許多不同的型態，下列型態和患者症狀的配對，<em>何者正確</em>？',opts:['(A) 核性白內障 — 單眼複視','(B) 皮質白內障 — 視力早期就很明顯下降','(C) 後囊下白內障 — 強光下更模糊、眩光','(D) 二次白內障 — 近視度數加深']},
+  {q:'造成白內障的風險因子相關描述，<em>何者錯誤</em>？',opts:['(A) 老化引起的白內障是可逆的','(B) 系統疾病中最常見引起白內障的是糖尿病','(C) 因外力撞擊眼睛可能導致白內障','(D) 抽菸也是白內障的風險因子']},
+  {q:'下列藥物<em>何者</em>被證實最容易誘發白內障？',opts:['(A) 降血脂藥物','(B) 類固醇','(C) 精神科藥物','(D) 抗心律不整藥物']},
+  {q:'下列疾病和水晶體異位較<em>沒有</em>關係？',opts:['(A) 異位性皮膚炎','(B) 馬凡氏症候群','(C) 高胱胺酸尿症','(D) 小晶體症']},
+  {q:'關於白內障手術的敘述，下列<em>何者錯誤</em>？',opts:['(A) 現今常見手術方式為超音波乳化術（phacoemulsification）','(B) 手術順利移除混濁的晶體後，會植入人工水晶體（IOL）','(C) 小孩的白內障手術無論單眼還是雙眼都是要在一個月大左右手術','(D) 手術時機通常取決於視力對日常生活的影響']},
+  {q:'關於眼壓的描述，下列<em>何者正確</em>？',opts:['(A) 一天當中眼壓早上較低，下午較高','(B) 眼壓低於20mmHg一定不會有青光眼','(C) 準確的眼壓測量值需要校正角膜厚度','(D) 眼壓和血壓成正比關係']},
+  {q:'下列<em>何者不是</em>診斷青光眼所需要的檢查工具？',opts:['(A) 眼底杯盤比檢查','(B) 視神經纖維層分析','(C) 視野檢查','(D) 電生理檢查']},
+  {q:'隅角閉鎖型的青光眼危險因子有哪些？<br><small>（1）近視 （2）遠視 （3）外傷 （4）過熟型白內障 （5）類固醇 （6）散瞳劑 （7）男性 （8）女性</small>',opts:['(A) (2)(3)(4)(6)(8)','(B) (2)(5)(6)(8)','(C) (1)(3)(4)(6)(8)','(D) (1)(3)(4)(5)(6)']},
+  {q:'關於水晶體引起的青光眼（lens-induced glaucoma），下列<em>何者正確</em>？',opts:['(A) 僅發生於先天性白內障患者','(B) 與水晶體大小或位置無關','(C) 所有病例皆為隅角開角型青光眼','(D) 過熟白內障可能導致眼壓上升']},
+  {q:'青光眼藥物與其常見副作用的配對，下列<em>何者錯誤</em>？',opts:['(A) 腎上腺素受體促進劑 (α2 agonist) — 腎功能變差','(B) 乙型阻斷劑 (β blocker) — 氣喘發作','(C) 碳酸肝酶抑制劑 (carbonate anhydrase inhibitor) — 手腳發麻','(D) 前列腺素類似物 (prostaglandin analog) — 睫毛變長']},
+  {q:'有關結膜炎之敘述，下列<em>何者錯誤</em>？',opts:['(A) 共通症狀常為流淚、砂礫感、刺痛、灼熱','(B) 病毒感染引起的較常為膿性（purulent）分泌物','(C) 過敏性結膜炎較常為粘液性（mucoid）分泌物','(D) 砂眼則較常為粘液膿性（mucopurulent）分泌物']},
+  {q:'關於圓錐角膜之敘述，下列<em>何者錯誤</em>？（可能有兩個答案，答對任一或複選都給分）',opts:['(A) 疾病初期視力模糊是唯一症狀','(B) 和許多疾病皆有相關，如唐氏症、異位性皮膚炎、視網膜色素病變等','(C) 進程緩慢，屈光異常症狀通常始於20多歲，於40多歲趨於穩定','(D) 疾病徵象包含後彈力層中央線性皺褶（Vogt\'s lines）、棕綠色環（Kayser-Fleischer rings）及Munson氏徵象']},
+  {q:'下列有關棘狀阿米巴角膜炎的敘述，<em>何者錯誤</em>？',opts:['(A) 配戴隱形眼鏡是其危險因子之一','(B) 病人通常不會有明顯疼痛的症狀','(C) 角膜典型表現為角膜環狀浸潤','(D) 無法及時給予抗原蟲藥物是預後不佳的成因之一']},
+  {q:'一位70歲男性最近幾日右前額和鼻尖出現水泡，右眼有紅腫和模糊，裂隙燈螢光染色發現角膜有樹枝狀潰瘍，此患者最有可能的診斷為何？',opts:['(A) 流行性角膜結膜炎','(B) 暴露性角膜病變','(C) 疱疹性角膜炎','(D) 上輪部角結膜炎（superior limbic keratoconjunctivitis）']},
+  {q:'新生兒經產道感染的結膜炎，<em>較少見</em>的是下列何者？',opts:['(A) 葡萄球菌類（staphylococci）例如金黃色葡萄球菌','(B) 奈瑟氏淋病雙球菌（N. gonorrhoeae）','(C) 單純皰疹病毒（herpes simplex virus）','(D) 披衣菌（C. trachomatis）']},
+  {q:'角膜水腫合併大疱性角膜病變（bullous keratopathy），主要是何種角膜結構發生病變導致功能異常所致？',opts:['(A) 角膜上皮細胞層','(B) 角膜內皮細胞層','(C) 角膜基質層','(D) 前彈力層（Bowman\'s membrane）']},
+  {q:'有關翼狀贅片（pterygium）的敘述，下列<em>何者錯誤</em>？',opts:['(A) 常見於戶外工作常接觸陽光、塵土飛揚、強風的人','(B) 通常出現在角膜的鼻側或顳側且侵犯到角膜','(C) 可能影響外觀但不致於會影響戴隱形眼鏡','(D) 其病理組織學變化和結膜黃斑（pinguecula）相類似']},
+  {q:'有關巨大乳突性結膜炎之敘述，下列<em>何者正確</em>？',opts:['(A) 典型症狀為癢與膿性分泌物','(B) 類固醇為主要治療方式','(C) 下眼瞼結膜易有巨大乳突產生','(D) 和戴隱形眼鏡有關']},
+  {q:'有關季節性角結膜炎（vernal keratoconjunctivitis）之敘述，下列<em>何者正確</em>？',opts:['(A) 好發於年長女性','(B) 臨床上，結膜病症常發生在下瞼板結膜','(C) 常見的症狀之一是乾眼','(D) 圓錐角膜（keratoconus）或角膜膨隆（corneal ectasia）發生率較一般人高']},
+  {q:'對於葡萄膜炎的敘述，下列<em>哪些正確</em>？<br><small>（1）可依主要發炎的解剖學位置分為前、中、後葡萄膜炎 （2）常見症狀為畏光與視力模糊 （3）有時和自體免疫疾病相關 （4）局部類固醇為主要治療選擇</small>',opts:['(A) (1)~(4)全部正確','(B) 僅(1)(3)正確','(C) 僅(1)(4)正確','(D) 僅(4)正確']},
+  {q:'葡萄膜炎常見的併發症包括下列何者？<br><small>（1）白內障 （2）眼瞼下垂 （3）青光眼 （4）角膜失養症（dystrophy） （5）黃斑部水腫</small>',opts:['(A) (1)(2)(3)','(B) (1)(3)(5)','(C) (1)(4)(5)','(D) (2)(3)(4)']},
+  {q:'有關角膜老人環（senile arcus / arcus senilis）的敘述，下列<em>何者錯誤</em>？',opts:['(A) 若出現於年紀大的老人患者，應特別留意抽血檢查膽固醇及三酸甘油脂','(B) 通常是兩側性','(C) 通常不會影響視力','(D) 位置在角膜邊緣靠近輪部處']},
+  {q:'常伴隨葡萄膜炎的系統性疾病，<em>何者除外</em>？',opts:['(A) 類肉瘤（sarcoidosis）','(B) 高血壓','(C) 原田氏病（Vogt-Koyanagi-Harada disease）','(D) 貝賽特氏病（Behcet\'s disease）']},
+  {q:'造成細菌性角膜炎（角膜潰瘍）的病原菌，較常見的有哪些？<br><small>（1）綠膿桿菌 （2）金黃色葡萄球菌 （3）表皮葡萄球菌 （4）鏈球菌 （5）大腸桿菌 （6）乳酸菌</small>',opts:['(A) (1)(2)(3)(4)','(B) (2)(3)(4)(5)','(C) (1)(3)(5)','(D) (1)~(6)皆為常見造成角膜潰瘍的細菌']},
+  {q:'關於疾病診斷的基本觀念，下列<em>何者正確</em>？',opts:['(A) 病人主觀描述不舒服的狀況稱為「徵候」例如「左眼會癢」','(B) 醫師檢查或儀器檢查發現的客觀狀況稱為「症狀」例如「眼壓過高」','(C) 一個檢驗用於100名真正有病的患者中，95個陽性，則其敏感度（Sensitivity）為95%','(D) 不論疾病盛行率為何，做了某個敏感度95%的檢驗結果為陽性，則患此病的機率就是95%']}
 ];
 
-const POINTS_PER_Q = 3; // deduct 3 per wrong answer
-
-function isCorrect(qNum, ans) {
-  const key = ANSWERS[qNum];
+function isCorrect(n, ans) {
   if (!ans) return false;
-  return Array.isArray(key) ? key.includes(ans) : ans === key;
+  var key = ANSWERS[n];
+  return Array.isArray(key) ? key.indexOf(ans) >= 0 : ans === key;
 }
-function displayAnswer(qNum) {
-  const key = ANSWERS[qNum];
+function showAnswer(n) {
+  var key = ANSWERS[n];
   return Array.isArray(key) ? key.join(' 或 ') : key;
 }
 
-
-// ══════════════════════════════════════════════════════════════════════════════
 function renderQuestions() {
-  const c = document.getElementById('questions-container');
-  c.innerHTML = QUESTIONS.map((q, i) => {
-    const n = i + 1;
-    const opts = q.opts.map((o, j) => {
-      const letter = ['A','B','C','D'][j];
-      return `<label class="option-label" id="opt-${n}-${letter}">
-        <input type="radio" name="q${n}" value="${letter}" onchange="onAnswer(${n})">
-        <span>${o}</span>
-      </label>`;
-    }).join('');
-    return `<div class="q-card" id="qcard-${n}">
-      <div class="q-num"><span class="badge">${n}</span> 第 ${n} 題</div>
-      <div class="q-text">${q.q}</div>
-      <div class="options">${opts}</div>
-    </div>`;
-  }).join('');
-}
-
-let answered = new Set();
-function onAnswer(n) {
-  answered.add(n);
-  document.getElementById(`qcard-${n}`).classList.add('answered');
-  const val = document.querySelector(`input[name="q${n}"]:checked`).value;
-  ['A','B','C','D'].forEach(l => {
-    document.getElementById(`opt-${n}-${l}`).classList.toggle('selected', l === val);
-  });
-  updateProgress();
-}
-
-function updateProgress() {
-  const t = document.getElementById('prog-text');
-  const f = document.getElementById('prog-fill');
-  t.textContent = `${answered.size} / 30`;
-  f.style.width = `${(answered.size/30)*100}%`;
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  SUBMIT
-// ══════════════════════════════════════════════════════════════════════════════
-function submitExam() {
-  const name = document.getElementById('s-name').value.trim();
-  const sid  = document.getElementById('s-id').value.trim();
-  const cls  = document.getElementById('s-class').value.trim();
-  if (!name || !sid) { alert('請填寫學號與姓名後再繳交！'); return; }
-  if (answered.size < 30) {
-    if (!confirm(`還有 ${30 - answered.size} 題未作答，確定要繳交嗎？`)) return;
+  var html = '';
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var n = i + 1;
+    var q = QUESTIONS[i];
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      opts += '<label class="opt" id="opt-' + n + '-' + letters[j] + '">' +
+        '<input type="radio" name="q' + n + '" value="' + letters[j] + '" onchange="onAnswer(' + n + ')">' +
+        '<span>' + q.opts[j] + '</span></label>';
+    }
+    html += '<div class="q-card" id="qcard-' + n + '">' +
+      '<div class="q-num"><span class="badge">' + n + '</span> 第 ' + n + ' 題</div>' +
+      '<div class="q-text">' + q.q + '</div>' +
+      '<div class="options">' + opts + '</div></div>';
   }
-  // collect answers
-  const studentAns = {};
-  for (let i = 1; i <= 30; i++) {
-    const el = document.querySelector(`input[name="q${i}"]:checked`);
+  document.getElementById('qcontainer').innerHTML = html;
+}
+
+var answered = {};
+function onAnswer(n) {
+  answered[n] = true;
+  var el = document.querySelector('input[name="q' + n + '"]:checked');
+  if (!el) return;
+  var val = el.value;
+  document.getElementById('qcard-' + n).classList.add('answered');
+  var letters = ['A','B','C','D'];
+  for (var j = 0; j < letters.length; j++) {
+    var o = document.getElementById('opt-' + n + '-' + letters[j]);
+    if (o) o.classList.toggle('selected', letters[j] === val);
+  }
+  var count = Object.keys(answered).length;
+  document.getElementById('prog-text').textContent = count + ' / 30';
+  document.getElementById('prog-fill').style.width = (count / 30 * 100) + '%';
+  startTimer();
+}
+
+function submitExam() {
+  var name = document.getElementById('s-name').value.trim();
+  var sid  = document.getElementById('s-id').value.trim();
+  var cls  = document.getElementById('s-class').value.trim();
+  if (!name || !sid) { alert('請填寫學號與姓名後再繳交！'); return; }
+  var doneCount = Object.keys(answered).length;
+  if (doneCount < 30) {
+    if (!confirm('還有 ' + (30 - doneCount) + ' 題未作答，確定要繳交嗎？')) return;
+  }
+  var studentAns = {};
+  for (var i = 1; i <= 30; i++) {
+    var el = document.querySelector('input[name="q' + i + '"]:checked');
     studentAns[i] = el ? el.value : null;
   }
-  // grade
-  let correct = 0;
-  for (let i = 1; i <= 30; i++) {
+  var correct = 0;
+  for (var i = 1; i <= 30; i++) {
     if (isCorrect(i, studentAns[i])) correct++;
   }
-  const wrong = 30 - correct;
-  const score = Math.max(0, 100 - wrong * POINTS_PER_Q);
-  const record = {
-    id: Date.now(), name, sid, cls,
-    answers: studentAns, score, correct,
-    time: new Date().toLocaleString('zh-TW')
-  };
-  // save
-  const all = JSON.parse(localStorage.getItem('eyeExam_submissions') || '[]');
+  var score = Math.max(0, 100 - (30 - correct) * 3);
+  var record = { id: Date.now(), name: name, sid: sid, cls: cls, answers: studentAns, score: score, correct: correct, time: new Date().toLocaleString('zh-TW') };
+  var all = JSON.parse(localStorage.getItem('eyeExam') || '[]');
   all.push(record);
-  localStorage.setItem('eyeExam_submissions', JSON.stringify(all));
-  // stop timer
+  localStorage.setItem('eyeExam', JSON.stringify(all));
   clearInterval(timerInterval);
   showResult(record);
+  buildEmail(record);
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  RESULT
-// ══════════════════════════════════════════════════════════════════════════════
 function showResult(r) {
-  const pct = r.score;
-  const grade = pct >= 90 ? '優秀 🏆' : pct >= 80 ? '良好 🌟' : pct >= 70 ? '尚可 👍' : pct >= 60 ? '及格 ✅' : '不及格 ❌';
-  const gradeColor = pct >= 60 ? 'var(--accent)' : 'var(--danger)';
-  let reviewHTML = '';
-  for (let i = 1; i <= 30; i++) {
-    const ok = isCorrect(i, r.answers[i]);
-    const ca = displayAnswer(i);
-    reviewHTML += `<div class="review-card ${ok?'correct':'wrong'}">
-      <div class="review-status ${ok?'ok':'err'}">${ok ? '✓ 答對' : '✗ 答錯'} — 第 ${i} 題</div>
-      <div class="q-text" style="font-size:0.88rem;margin:0.3rem 0">${QUESTIONS[i-1].q}</div>
-      <div class="review-answer">
-        <span class="correct-ans">正確答案：${ca}</span>
-        ${!ok ? `<span style="margin:0 0.5rem;color:var(--gray-400)">|</span><span class="student-ans">你的答案：${sa}</span>` : ''}
-      </div>
-    </div>`;
+  var grade = r.score >= 90 ? '優秀 🏆' : r.score >= 80 ? '良好 🌟' : r.score >= 70 ? '尚可 👍' : r.score >= 60 ? '及格 ✅' : '不及格 ❌';
+  var gradeColor = r.score >= 60 ? 'var(--accent)' : 'var(--danger)';
+  var html = '<div class="wrap"><div class="result-card">' +
+    '<div style="font-size:0.85rem;color:var(--gray-400);margin-bottom:0.5rem">' + r.name + '（' + r.sid + '）· ' + r.cls + '班 · ' + r.time + '</div>' +
+    '<div class="score-big">' + r.score + '<span> 分</span></div>' +
+    '<div class="score-sub">答對 ' + r.correct + ' / 30 題</div>' +
+    '<div class="score-grade" style="color:' + gradeColor + '">' + grade + '</div>' +
+    '</div><h3 style="font-size:1rem;color:var(--gray-700);margin-bottom:1rem;padding:0 0.25rem">📝 每題詳解</h3>';
+  for (var i = 1; i <= 30; i++) {
+    var sa = r.answers[i] || '未作答';
+    var ca = showAnswer(i);
+    var ok = isCorrect(i, r.answers[i]);
+    html += '<div class="review-card ' + (ok ? 'correct' : 'wrong') + '">' +
+      '<div class="review-status ' + (ok ? 'ok' : 'err') + '">' + (ok ? '✓ 答對' : '✗ 答錯') + ' — 第 ' + i + ' 題</div>' +
+      '<div class="q-text" style="font-size:0.88rem;margin:0.3rem 0">' + QUESTIONS[i-1].q + '</div>' +
+      '<div class="review-ans"><span class="correct-ans">正確答案：' + ca + '</span>' +
+      (!ok ? '<span style="margin:0 0.5rem;color:var(--gray-400)">|</span><span class="wrong-ans">你的答案：' + sa + '</span>' : '') +
+      '</div></div>';
   }
-  document.getElementById('result-view').innerHTML = `
-    <div style="max-width:820px;margin:2rem auto;padding:0 1.5rem 4rem">
-      <div class="result-card">
-        <div style="font-size:0.85rem;color:var(--gray-400);margin-bottom:0.5rem">${r.name}（${r.sid}）· ${r.cls}班 · ${r.time}</div>
-        <div class="score-display">${r.score}<span> 分</span></div>
-        <div class="score-label">答對 ${r.correct} / 30 題</div>
-        <div class="score-grade" style="color:${gradeColor}">${grade}</div>
-      </div>
-      <h3 style="font-size:1rem;color:var(--gray-700);margin-bottom:1rem;padding:0 0.25rem">📝 每題詳解</h3>
-      ${reviewHTML}
-    </div>`;
+  html += '</div>';
+  document.getElementById('result-view').innerHTML = html;
   switchView('result');
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  TEACHER
-// ══════════════════════════════════════════════════════════════════════════════
+function buildEmail(r) {
+  var lines = [];
+  for (var i = 1; i <= 30; i++) {
+    lines.push('Q' + i + ': ' + (r.answers[i] || '未作答') + ' ' + (isCorrect(i, r.answers[i]) ? '✓' : '✗'));
+  }
+  var subj = encodeURIComponent('【眼疾病學研討期中】' + r.name + ' ' + r.sid + ' ' + r.cls + '班 ' + r.score + '分');
+  var body = encodeURIComponent('姓名：' + r.name + '\n學號：' + r.sid + '\n班級：' + r.cls + '\n分數：' + r.score + ' 分\n答對：' + r.correct + ' / 30 題\n繳交時間：' + r.time + '\n\n各題作答：\n' + lines.join('\n'));
+  document.getElementById('email-link').href = 'mailto:shelley09832420@gmail.com?subject=' + subj + '&body=' + body;
+  document.getElementById('email-float').style.display = 'block';
+}
+
 function switchTeacher() {
-  const pw = prompt('請輸入教師密碼：');
+  var pw = prompt('請輸入教師密碼：');
   if (pw === null) return;
   if (pw !== '60080') { alert('密碼錯誤，無法進入教師介面。'); return; }
   switchView('teacher');
-  renderTeacherTable();
+  renderTeacher();
 }
 
-function renderTeacherTable() {
-  const all = JSON.parse(localStorage.getItem('eyeExam_submissions') || '[]');
-  const wrap = document.getElementById('teacher-table-wrap');
-  // stats
+function renderTeacher() {
+  var all = JSON.parse(localStorage.getItem('eyeExam') || '[]');
   document.getElementById('st-count').textContent = all.length;
   if (all.length > 0) {
-    const avg = all.reduce((a,b) => a + b.score, 0) / all.length;
-    const pass = all.filter(r => r.score >= 60).length;
+    var avg = 0; for (var i = 0; i < all.length; i++) avg += all[i].score; avg /= all.length;
+    var pass = 0; for (var i = 0; i < all.length; i++) if (all[i].score >= 60) pass++;
     document.getElementById('st-avg').textContent = avg.toFixed(1);
     document.getElementById('st-pass').textContent = Math.round(pass / all.length * 100) + '%';
+  } else {
+    document.getElementById('st-avg').textContent = '—';
+    document.getElementById('st-pass').textContent = '—';
   }
-  if (all.length === 0) {
-    wrap.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>尚無學生繳交記錄</p></div>';
-    return;
+  var wrap = document.getElementById('tbl-wrap');
+  if (!all.length) { wrap.innerHTML = '<div class="empty"><div style="font-size:3rem">📭</div><p>尚無學生繳交記錄</p></div>'; return; }
+  var rows = '';
+  for (var i = 0; i < all.length; i++) {
+    var r = all[i];
+    rows += '<tr><td>' + (i+1) + '</td><td>' + (r.cls||'—') + '</td><td>' + r.sid + '</td><td>' + r.name + '</td>' +
+      '<td><span class="pill ' + (r.score>=60?'pass':'fail') + '">' + r.score + ' 分</span></td>' +
+      '<td>' + r.correct + ' / 30</td><td style="font-size:0.8rem;color:var(--gray-400)">' + r.time + '</td>' +
+      '<td><button class="btn-sm" onclick="showDetail(' + r.id + ')">詳細</button></td></tr>';
   }
-  const rows = all.map((r,i) => `
-    <tr>
-      <td>${i+1}</td>
-      <td>${r.cls || '—'}</td>
-      <td>${r.sid}</td>
-      <td>${r.name}</td>
-      <td><span class="score-pill ${r.score >= 60 ? 'pass':'fail'}">${r.score} 分</span></td>
-      <td>${r.correct} / 30</td>
-      <td style="color:var(--gray-400);font-size:0.8rem">${r.time}</td>
-      <td><button class="btn-detail" onclick="showDetail(${r.id})">詳細</button></td>
-    </tr>`).join('');
-  wrap.innerHTML = `<table>
-    <thead><tr><th>#</th><th>班級</th><th>學號</th><th>姓名</th><th>分數</th><th>答對</th><th>繳交時間</th><th></th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+  wrap.innerHTML = '<table><thead><tr><th>#</th><th>班級</th><th>學號</th><th>姓名</th><th>分數</th><th>答對</th><th>繳交時間</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
 function showDetail(id) {
-  const all = JSON.parse(localStorage.getItem('eyeExam_submissions') || '[]');
-  const r = all.find(x => x.id === id);
+  var all = JSON.parse(localStorage.getItem('eyeExam') || '[]');
+  var r = null;
+  for (var i = 0; i < all.length; i++) { if (all[i].id === id) { r = all[i]; break; } }
   if (!r) return;
-  document.getElementById('modal-title').textContent = `${r.name}（${r.sid}）— ${r.score} 分`;
-  let html = '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">';
-  for (let i = 1; i <= 30; i++) {
-    const ok = isCorrect(i, r.answers[i]);
-    const bg = ok ? 'var(--accent-light)' : 'var(--danger-light)';
-    const col = ok ? 'var(--accent)' : 'var(--danger)';
-    html += `<div style="background:${bg};border-radius:8px;padding:0.6rem;text-align:center">
-      <div style="font-size:0.7rem;color:${col};font-weight:600">第${i}題</div>
-      <div style="font-size:1rem;font-weight:700;color:${col}">${r.answers[i] || '—'}</div>
-      <div style="font-size:0.7rem;color:var(--gray-400)">正：${displayAnswer(i)}</div>
-    </div>`;
+  document.getElementById('modal-title').textContent = r.name + '（' + r.sid + '）— ' + r.score + ' 分';
+  var html = '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">';
+  for (var i = 1; i <= 30; i++) {
+    var ok = isCorrect(i, r.answers[i]);
+    var bg = ok ? 'var(--accent-light)' : 'var(--danger-light)';
+    var col = ok ? 'var(--accent)' : 'var(--danger)';
+    html += '<div style="background:' + bg + ';border-radius:8px;padding:0.6rem;text-align:center">' +
+      '<div style="font-size:0.7rem;color:' + col + ';font-weight:600">第' + i + '題</div>' +
+      '<div style="font-size:1rem;font-weight:700;color:' + col + '">' + (r.answers[i]||'—') + '</div>' +
+      '<div style="font-size:0.7rem;color:var(--gray-400)">正：' + showAnswer(i) + '</div></div>';
   }
   html += '</div>';
   document.getElementById('modal-body').innerHTML = html;
@@ -614,74 +396,59 @@ function showDetail(id) {
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  EXPORT CSV
-// ══════════════════════════════════════════════════════════════════════════════
 function clearAll() {
-  if (!confirm('確定要清除所有繳交記錄嗎？（此操作無法復原）')) return;
-  localStorage.removeItem('eyeExam_submissions');
-  renderTeacherTable();
-  document.getElementById('st-avg').textContent = '—';
-  document.getElementById('st-pass').textContent = '—';
+  if (!confirm('確定要清除所有繳交記錄嗎？')) return;
+  localStorage.removeItem('eyeExam');
+  renderTeacher();
 }
 
 function exportCSV() {
-  const all = JSON.parse(localStorage.getItem('eyeExam_submissions') || '[]');
+  var all = JSON.parse(localStorage.getItem('eyeExam') || '[]');
   if (!all.length) { alert('尚無資料可匯出'); return; }
-  const header = ['姓名','學號','班級','分數','答對題數','繳交時間',
-    ...Array.from({length:30},(_,i)=>`Q${i+1}_作答`),
-    ...Array.from({length:30},(_,i)=>`Q${i+1}_正確`)].join(',');
-  const rows = all.map(r => [r.name, r.sid, r.cls, r.score, r.correct, r.time,
-    ...Array.from({length:30},(_,i)=>r.answers[i+1]||''),
-    ...Array.from({length:30},(_,i)=>displayAnswer(i+1))].join(','));
-  const csv = '\uFEFF' + [header,...rows].join('\n');
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `眼疾病學期中_成績_${new Date().toLocaleDateString('zh-TW')}.csv`;
-  a.click();
+  var header = ['姓名','學號','班級','分數','答對題數','繳交時間'];
+  for (var i = 1; i <= 30; i++) header.push('Q' + i + '_作答');
+  for (var i = 1; i <= 30; i++) header.push('Q' + i + '_正確');
+  var rows = [header.join(',')];
+  for (var j = 0; j < all.length; j++) {
+    var r = all[j];
+    var row = [r.name, r.sid, r.cls, r.score, r.correct, r.time];
+    for (var i = 1; i <= 30; i++) row.push(r.answers[i] || '');
+    for (var i = 1; i <= 30; i++) row.push(showAnswer(i));
+    rows.push(row.join(','));
+  }
+  var blob = new Blob(['\uFEFF' + rows.join('\n')], {type:'text/csv;charset=utf-8;'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = '眼疾病學研討期中成績.csv'; a.click();
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  VIEW SWITCH
-// ══════════════════════════════════════════════════════════════════════════════
 function switchView(v) {
-  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-  document.getElementById(`${v}-view`).classList.add('active');
+  var views = document.querySelectorAll('.view');
+  for (var i = 0; i < views.length; i++) views[i].classList.remove('active');
+  document.getElementById(v + '-view').classList.add('active');
   document.getElementById('btnStudent').classList.toggle('active', v === 'student');
   document.getElementById('btnTeacher').classList.toggle('active', v === 'teacher');
+  if (v !== 'result') document.getElementById('email-float').style.display = 'none';
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  TIMER (50 min)
-// ══════════════════════════════════════════════════════════════════════════════
-let timerInterval, timeLeft = 75 * 60;
+var timerInterval = null;
+var timeLeft = 75 * 60;
+var timerStarted = false;
 function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
   document.getElementById('timerWrap').style.display = 'flex';
-  timerInterval = setInterval(() => {
+  timerInterval = setInterval(function() {
     timeLeft--;
-    const m = String(Math.floor(timeLeft/60)).padStart(2,'0');
-    const s = String(timeLeft%60).padStart(2,'0');
-    const el = document.getElementById('timer');
-    el.textContent = `${m}:${s}`;
+    var m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+    var s = String(timeLeft%60).padStart(2,'0');
+    var el = document.getElementById('timer');
+    el.textContent = m + ':' + s;
     if (timeLeft <= 300) el.classList.add('warning');
-    if (timeLeft <= 0) { clearInterval(timerInterval); alert('考試時間到！系統將自動繳交。'); submitExam(); }
+    if (timeLeft <= 0) { clearInterval(timerInterval); alert('考試時間到！'); submitExam(); }
   }, 1000);
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════════════════════════
 renderQuestions();
-// Ask if teacher or student on load
-window.addEventListener('load', () => {
-  // start timer when student view is active and user starts answering
-  document.getElementById('questions-container').addEventListener('change', () => {
-    if (!timerInterval && document.getElementById('student-view').classList.contains('active')) {
-      startTimer();
-    }
-  }, { once: true });
-});
 </script>
 </body>
 </html>
