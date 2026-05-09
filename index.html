@@ -512,18 +512,16 @@ function submitExam() {
   localStorage.setItem('eyeExam_submissions', JSON.stringify(all));
   // stop timer
   clearInterval(timerInterval);
-  // send to Google Sheets
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyS3KThB0EKzggmCJZHlmKro612Mr2jEe10zsEtbMsnAbDLGAYZQfZT8S3x0BUgbd6g/exec';
-  document.getElementById('submitBtn').disabled = true;
-  document.getElementById('submitBtn').textContent = '傳送中…';
-  fetch(GAS_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(record)
-  }).catch(() => {}).finally(() => {
-    showResult(record);
-  });
+  // send email
+  const answerList = Array.from({length:30},(_,i)=>{
+    const ans = record.answers[i+1] || '未作答';
+    const ok = isCorrect(i+1, record.answers[i+1]) ? '✓' : '✗';
+    return `Q${i+1}: ${ans} ${ok}`;
+  }).join('\n');
+  const subject = encodeURIComponent(`【眼疾病學研討期中】${record.name} ${record.sid} ${record.cls}班 ${record.score}分`);
+  const body = encodeURIComponent(`姓名：${record.name}\n學號：${record.sid}\n班級：${record.cls}\n分數：${record.score} 分\n答對：${record.correct} / 30 題\n繳交時間：${record.time}\n\n各題作答：\n${answerList}`);
+  window.location.href = `mailto:shelley09832420@gmail.com?subject=${subject}&body=${body}`;
+  showResult(record);
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
