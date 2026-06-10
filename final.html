@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>114-2 臨床眼疾病學研討｜期末測驗</title>
+<style>
+  :root {
+    --primary: #1a5276;
+    --primary-light: #d6eaf8;
+    --accent: #1e8449;
+    --accent-light: #d5f5e3;
+    --danger: #c0392b;
+    --danger-light: #fdecea;
+    --gray-100: #f4f6f9;
+    --gray-200: #e8ecf1;
+    --gray-400: #a0aab8;
+    --gray-700: #4a5568;
+    --gray-900: #1a202c;
+    --border: #dde3ec;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Microsoft JhengHei', sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; }
+  header {
+    background: var(--primary); color: white; padding: 1.25rem 2rem;
+    display: flex; align-items: center; gap: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18); position: sticky; top: 0; z-index: 100;
+  }
+  header h1 { font-size: 1.1rem; font-weight: 600; line-height: 1.3; flex: 1; }
+  header h1 small { font-size: 0.8rem; opacity: 0.75; display: block; font-weight: 400; }
+  .mode-switch { display: flex; gap: 0.5rem; }
+  .mode-btn {
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    color: white; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer;
+    font-size: 0.85rem; font-family: inherit;
+  }
+  .mode-btn.active { background: rgba(255,255,255,0.3); }
+  .timer-wrap { display: none; align-items: center; gap: 0.75rem; }
+  .timer { background: rgba(255,255,255,0.2); border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.9rem; font-family: monospace; font-weight: 600; color: white; }
+  .timer.warning { background: rgba(231,76,60,0.7); }
+  .view { display: none; }
+  .view.active { display: block; }
+  .wrap { max-width: 820px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+  .exam-info { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1.5rem; box-shadow: var(--shadow); }
+  .field { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+  .field label { font-size: 0.75rem; color: var(--gray-400); text-transform: uppercase; }
+  .field input { border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.95rem; font-family: inherit; background: var(--gray-100); }
+  .field input:focus { outline: none; border-color: var(--primary); background: white; }
+  .prog-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 0.9rem 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  .prog-wrap p { font-size: 0.82rem; color: var(--gray-700); margin-bottom: 0.5rem; }
+  .prog-bar { height: 8px; background: var(--gray-200); border-radius: 99px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--primary); border-radius: 99px; transition: width 0.4s; }
+  .q-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: var(--shadow); }
+  .q-card.answered { border-color: #b3c8e0; }
+  .q-num { font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+  .q-num .badge { background: var(--primary); color: white; border-radius: 99px; padding: 0.15rem 0.5rem; font-size: 0.7rem; }
+  .q-text { font-size: 0.97rem; line-height: 1.7; margin-bottom: 1rem; }
+  .q-text em { font-style: normal; color: var(--primary); font-weight: 500; }
+  .options { display: flex; flex-direction: column; gap: 0.55rem; }
+  .opt { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.65rem 0.9rem; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; font-size: 0.92rem; line-height: 1.5; }
+  .opt:hover { background: var(--primary-light); border-color: #a9c9e8; }
+  .opt input { margin-top: 2px; accent-color: var(--primary); flex-shrink: 0; }
+  .opt.selected { background: var(--primary-light); border-color: var(--primary); }
+  .submit-area { text-align: center; margin-top: 2rem; }
+  .btn-submit { background: var(--primary); color: white; border: none; border-radius: var(--radius); padding: 0.85rem 3rem; font-size: 1.05rem; font-family: inherit; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(26,82,118,0.35); }
+  .submit-note { margin-top: 0.75rem; font-size: 0.82rem; color: var(--gray-400); }
+  .result-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 2rem; margin-bottom: 1.5rem; text-align: center; box-shadow: var(--shadow); }
+  .score-big { font-size: 4rem; font-weight: 700; color: var(--primary); line-height: 1; }
+  .score-big span { font-size: 1.5rem; color: var(--gray-400); font-weight: 400; }
+  .score-sub { font-size: 0.9rem; color: var(--gray-400); margin-top: 0.5rem; }
+  .score-grade { font-size: 1.25rem; font-weight: 600; margin-top: 0.75rem; }
+  .review-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.4rem 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
+  .review-card.correct { border-left: 4px solid var(--accent); }
+  .review-card.wrong { border-left: 4px solid var(--danger); }
+  .review-status { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .review-status.ok { color: var(--accent); }
+  .review-status.err { color: var(--danger); }
+  .review-ans { margin-top: 0.5rem; font-size: 0.88rem; }
+  .correct-ans { color: var(--accent); font-weight: 600; }
+  .wrong-ans { color: var(--danger); }
+  .teacher-wrap { max-width: 960px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+  .teacher-head { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .teacher-head h2 { font-size: 1.2rem; color: var(--primary); }
+  .stats { display: flex; gap: 1.5rem; }
+  .stat .val { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+  .stat .lbl { font-size: 0.75rem; color: var(--gray-400); }
+  .tbl-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--primary); color: white; }
+  th { padding: 0.75rem 1rem; text-align: left; font-size: 0.85rem; }
+  td { padding: 0.75rem 1rem; font-size: 0.88rem; border-bottom: 1px solid var(--gray-200); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--gray-100); }
+  .pill { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 99px; font-weight: 600; font-size: 0.82rem; }
+  .pill.pass { background: var(--accent-light); color: var(--accent); }
+  .pill.fail { background: var(--danger-light); color: var(--danger); }
+  .btn-sm { background: var(--primary-light); color: var(--primary); border: 1px solid #a9c9e8; border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.8rem; cursor: pointer; font-family: inherit; }
+  .btn-export { background: var(--accent); color: white; border: none; border-radius: 8px; padding: 0.55rem 1.25rem; font-size: 0.9rem; font-family: inherit; cursor: pointer; font-weight: 500; }
+  .btn-danger { background: var(--danger); color: white; border: none; border-radius: 8px; padding: 0.55rem 1.25rem; font-size: 0.9rem; font-family: inherit; cursor: pointer; font-weight: 500; }
+  .empty { text-align: center; padding: 3rem; color: var(--gray-400); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: 14px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .modal-header h3 { font-size: 1.1rem; color: var(--primary); }
+  .modal-close { background: var(--gray-200); border: none; border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-family: inherit; }
+  #email-float { display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--primary); color: white; padding: 1.25rem 1.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 9999; max-width: 300px; text-align: center; }
+  #email-float .ef-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
+  #email-float .ef-desc { font-size: 0.8rem; opacity: 0.85; margin-bottom: 0.8rem; }
+  #email-float a { display: block; background: white; color: var(--primary); border-radius: 8px; padding: 0.55rem 1rem; font-weight: 700; font-size: 0.95rem; text-decoration: none; }
+  @media(max-width:600px) { header { padding: 0.9rem 1rem; } .exam-info { flex-direction: column; } .score-big { font-size: 2.8rem; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="font-size:1.5rem">🏥</div>
+  <h1>臨床眼疾病學研討<small>114-2｜五專視光科 501/502 班｜期末考</small></h1>
+  <div class="timer-wrap" id="timerWrap">
+    <span style="font-size:0.8rem;opacity:0.75">剩餘時間</span>
+    <div class="timer" id="timer">75:00</div>
+  </div>
+  <div class="mode-switch">
+    <button class="mode-btn active" id="btnStudent" onclick="switchView('student')">學生作答</button>
+    <button class="mode-btn" id="btnTeacher" onclick="switchTeacher()">教師批改</button>
+  </div>
+</header>
+
+<div class="view active" id="student-view">
+  <div class="wrap">
+    <div class="exam-info">
+      <div class="field"><label>班級</label><input type="text" id="s-class" placeholder="例：501"></div>
+      <div class="field"><label>學號</label><input type="text" id="s-id" placeholder="學號"></div>
+      <div class="field" style="flex:2"><label>姓名</label><input type="text" id="s-name" placeholder="請輸入姓名"></div>
+    </div>
+    <div class="prog-wrap">
+      <p>答題進度：<strong id="prog-text">0 / 30</strong> 題</p>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div id="qcontainer"></div>
+    <div class="submit-area">
+      <button class="btn-submit" onclick="submitExam()">繳交試卷</button>
+      <p class="submit-note">繳交後無法更改，請確認所有題目皆已作答</p>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="result-view"></div>
+
+<div class="view" id="teacher-view">
+  <div class="teacher-wrap">
+    <div class="teacher-head">
+      <div>
+        <h2>📋 教師閱卷面板</h2>
+        <p style="font-size:0.82rem;color:var(--gray-400);margin-top:0.25rem">所有學生繳交記錄</p>
+      </div>
+      <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap">
+        <div class="stats">
+          <div class="stat"><div class="val" id="st-count">0</div><div class="lbl">繳交人數</div></div>
+          <div class="stat"><div class="val" id="st-avg">—</div><div class="lbl">平均分數</div></div>
+          <div class="stat"><div class="val" id="st-pass">—</div><div class="lbl">及格率</div></div>
+        </div>
+        <button class="btn-export" onclick="exportCSV()">⬇ 匯出 CSV</button>
+        <button class="btn-danger" onclick="clearAll()">🗑 清除記錄</button>
+      </div>
+    </div>
+    <div class="tbl-wrap" id="tbl-wrap"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">學生詳細成績</h3>
+      <button class="modal-close" onclick="closeModal()">✕ 關閉</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div id="email-float">
+  <div class="ef-title">📧 請寄出成績通知</div>
+  <div class="ef-desc">點下方按鈕將成績寄給老師</div>
+  <a id="email-link" href="#">✉ 寄出成績給老師</a>
+</div>
+
+<script>
+// ── 答案 ──
+var ANSWERS = {
+  // 前15題（張尹曦）
+  1:'D', 2:'B', 3:'D', 4:'B', 5:'C',
+  6:'C', 7:'C', 8:'A', 9:'B', 10:'B',
+  11:'D', 12:'A', 13:'B', 14:'C', 15:'D',
+  // 後15題（嚴介宏）
+  16:'D', 17:'C', 18:'D', 19:'D', 20:'A',
+  21:'C', 22:'A', 23:'C', 24:'C', 25:'A',
+  26:'D', 27:'B', 28:'A', 29:'C', 30:'D'
+};
+
+// ── 題目 ──
+var QUESTIONS = [
+  // ── 前15題 ──
+  {
+    q: '下列何者<em>不是</em>評估眼位和斜視的檢查？',
+    opts: ['(A) 角膜光反射測試（Hirschberg test）', '(B) 遮蓋-去遮蓋測試（Cover-uncover test）', '(C) 交替遮蓋測試（Alternate cover test）', '(D) 視機能測試（Worth four dot test）']
+  },
+  {
+    q: '關於間歇性外斜視，下列敘述<em>何者正確</em>？',
+    opts: ['(A) 是最少見的外斜視種類', '(B) 兒童在疲累、發呆或看遠時可注意到眼位往外側偏移', '(C) 通常一出生即可發現', '(D) 此種外斜視一定和高度遠視有關']
+  },
+  {
+    q: '視覺路徑的排列順序從前到後，下列<em>何者正確</em>？<br><small>（1）視神經 （2）視束 （3）視放射 （4）視交叉 （5）內側膝狀體 （6）外側膝狀體 （7）中腦頂蓋前區 （8）大腦枕葉</small>',
+    opts: ['(A) (1)(2)(3)(4)(5)(6)(7)(8)', '(B) (1)(4)(2)(6)(7)(8)', '(C) (1)(2)(4)(5)(6)(3)(8)', '(D) (1)(4)(2)(6)(3)(8)']
+  },
+  {
+    q: '關於相對性輸入性瞳孔缺損（RAPD）的敘述，下列<em>何者錯誤</em>？',
+    opts: ['(A) 視神經病變的病人經常會表現 RAPD positive', '(B) RAPD 代表的是兩眼瞳孔會一邊放大一邊縮小', '(C) 因為車禍撞擊前額也可能導致該側眼睛 RAPD positive', '(D) 視神經炎的表現包括視力下降、眼睛轉動痛和 RAPD positive']
+  },
+  {
+    q: '下列何種視神經病變發現的時候最常見雙眼一起表現？',
+    opts: ['(A) 壓迫性視神經病變', '(B) 視神經炎', '(C) 中毒性視神經病變', '(D) 非動脈炎前部缺血性視神經病變']
+  },
+  {
+    q: '遇到患者頭痛、嘔吐、雙眼視覺模糊，檢查發現雙眼視神經盤水腫，最需要考慮下列何者？',
+    opts: ['(A) 青光眼', '(B) 視神經炎', '(C) 顱內壓升高', '(D) 前葡萄膜炎']
+  },
+  {
+    q: '一位40歲男性，抱怨有雙眼垂直複視，兩天前騎機車摔車，他發現往右側看複視更明顯，頭往左側傾斜複視也更明顯，關於他的情況，下列<em>何者正確</em>？',
+    opts: ['(A) 他可能是第三對腦神經麻痺', '(B) 這個情況和外傷沒有關係', '(C) 根據 Park 3 step test，可能是左側滑車神經麻痺', '(D) 需要緊急開刀治療，通常會復原']
+  },
+  {
+    q: '下列關於核間眼肌麻痺（internuclear ophthalmoplegia）的敘述<em>何者錯誤</em>？',
+    opts: ['(A) 會產生垂直方向複視', '(B) 是連結第三對和第六對腦神經核的內側縱束（medial longitudinal fasciculus）有問題', '(C) 可能的病因有：多發性硬化症、缺血性腦中風', '(D) 患側眼向鼻側轉動有障礙，而健側眼向顳側轉動會有眼球震顫']
+  },
+  {
+    q: '一個5歲的男童，最佳矯正視力右眼是1.0，左眼是0.7，請問哪一項處置<em>不合理</em>？',
+    opts: ['(A) 應進行驗光檢查，了解男童的度數情形', '(B) 如果兩眼都是約2D左右的遠視且沒有其他異常，可以建議進行遮左眼的遮眼（occlusion）治療', '(C) 如果有超過2D的散光和近視，建議也要佩戴鏡片治療', '(D) 如果左眼即使佩戴眼鏡後仍然有明顯內斜視，應考慮斜視手術的治療']
+  },
+  {
+    q: '下列何者是兒童白瞳症（leukocoria）的常見重要鑑別診斷？',
+    opts: ['(A) 青光眼', '(B) 視網膜母細胞瘤', '(C) 內斜視', '(D) 角膜炎']
+  },
+  {
+    q: '下列哪一種方式是屈光性弱視的危險度數？',
+    opts: ['(A) 雙眼遠視 &gt;4~5D', '(B) 雙眼近視 &gt;5~6D', '(C) 雙眼散光 &gt;2~3D', '(D) 以上皆是']
+  },
+  {
+    q: '眼科急症意指若短時間不處理，將可能造成視力或眼球結構永久性傷害，下列疾病<em>不屬於</em>眼科急症？',
+    opts: ['(A) 角膜點狀破皮', '(B) 化膿性眼內炎', '(C) 眼球破裂', '(D) 急性閉鎖性青光眼']
+  },
+  {
+    q: '有關眼部化學性灼傷的敘述，<em>何者錯誤</em>？',
+    opts: ['(A) 一般鹼性化學性灼傷造成的深層傷害比酸性物質更大', '(B) 若是鹼性灼傷應以酸性溶劑沖洗，酸性灼傷應以鹼性溶劑沖洗', '(C) 灼傷後應儘速用大量清水沖洗', '(D) 化學灼傷的併發症包括角膜混濁、輪部幹細胞缺血性傷害']
+  },
+  {
+    q: '急性眼球外傷造成眼球破裂的處置，<em>何者錯誤</em>？',
+    opts: ['(A) 應儘速就醫，接受評估和手術修補', '(B) 開放性傷因有感染的風險，須以抗生素治療', '(C) 如果有異物穿入眼睛，應儘速自行拔除', '(D) 可能合併外傷性白內障、視網膜剝離，需要多次手術']
+  },
+  {
+    q: '如果懷疑照顧者曾經對嬰兒施暴（用力上下左右晃動嬰兒），眼睛檢查最可能會有什麼發現？',
+    opts: ['(A) 水晶體異位', '(B) 青光眼', '(C) 視神經萎縮', '(D) 視網膜出血']
+  },
+  // ── 後15題 ──
+  {
+    q: '有關高血壓視網膜病變的敘述，何者<em>錯誤</em>？',
+    opts: ['(A) 腎病變病患易有高血壓視網膜病變', '(B) 早期變化是血管變細', '(C) 易表現出視網膜血管反光增加', '(D) 早期變化是視乳突水腫']
+  },
+  {
+    q: '有關乾性老年性黃斑部退化（dry AMD），下列敘述<em>何者正確</em>？',
+    opts: ['(A) 往往急性發作，以視力急性衰退來表現', '(B) 往往會造成黃斑部水腫', '(C) 往往是視網膜感光細胞與色素上皮細胞的萎縮', '(D) 不可能導致視力嚴重惡化或失明']
+  },
+  {
+    q: '有關白化症（albinism）之敘述，下列<em>何者錯誤</em>？',
+    opts: ['(A) 可能只表現在眼睛，又稱眼白化症', '(B) 可能同時表現在眼睛、皮膚及毛髮，此時稱眼皮膚白化症', '(C) 是黑色素（melanin）合成障礙造成的', '(D) 並不會增加皮膚基底細胞癌或鱗狀細胞癌的發生率']
+  },
+  {
+    q: '改善乾眼症的適宜生活習慣，<em>不包括</em>：',
+    opts: ['(A) 避免眼表面直接的外在刺激', '(B) 養成適時眨眼潤濕眼表之習慣', '(C) 減少熬夜、戒菸、補充ω-3脂肪酸', '(D) 每日冷／冰敷']
+  },
+  {
+    q: '有關白內障與系統性疾病之關聯，下列敘述<em>何者錯誤</em>？',
+    opts: ['(A) 高血糖因為糖分代謝，會使糖尿病患者的水晶體滲透壓改變，進而呈現<em>遠視</em>趨向', '(B) 肌張性失養症（myotonic dystrophy）患者可能在30歲左右呈現水晶體皮質型混濁', '(C) 重度異位性皮膚炎患者可能在20至40歲間產生水晶體前囊下盾形混濁', '(D) 第二型神經纖維瘤患者在青少年時期可能產生水晶體後囊下或皮質型白內障']
+  },
+  {
+    q: '有關糖尿病神經病變之敘述，下列<em>何者錯誤</em>？',
+    opts: ['(A) 第三對腦神經麻痺的眼動功能，通常在發病後3個月會恢復', '(B) 自主神經病變會導致瞳孔反應減少', '(C) 造成的第三對腦神經麻痺會導致瞳孔放大', '(D) 有可能發生非動脈炎性前缺血性視神經病變']
+  },
+  {
+    q: '有關甲狀腺眼疾（Graves\' ophthalmopathy）之敘述，下列<em>何者錯誤</em>？',
+    opts: ['(A) 因眼窩的變化是由甲狀腺素直接引起的，治療只需在新陳代謝科控制好甲狀腺相關激素水平即可', '(B) 約90%病人有甲狀腺亢進的現象，其餘少數患者眼病變發病時，可能為正常或甲狀腺機能低下狀態', '(C) 眼外肌常因為發炎與水腫而造成肥大，尤其以下直肌和內直肌最常見', '(D) 眼瞼退縮和眼球突出，會造成眼瞼閉合不全，嚴重者可導致暴露性角結膜炎甚至角膜潰瘍']
+  },
+  {
+    q: '有關糖尿病視網膜病變的玻璃體內藥物注射治療，下列<em>何者錯誤</em>？',
+    opts: ['(A) 可注射長效型類固醇藥物', '(B) 可注射血管內皮細胞生長抗體', '(C) 可以根治糖尿病視網膜病變', '(D) 可能需要反覆注射多次以維持療效']
+  },
+  {
+    q: '下列何者<em>不是</em>老年性黃斑部病變（AMD）的危險因子？',
+    opts: ['(A) 抽菸', '(B) 高血壓', '(C) 糖尿病', '(D) 高脂肪攝取及肥胖']
+  },
+  {
+    q: '關於早產兒視網膜病變之敘述，下列<em>何者錯誤</em>？',
+    opts: ['(A) 早產兒出生時<em>氧氣給的太少</em>是主要危險因子', '(B) 出生妊娠週數小於32週的新生兒需要進行篩檢', '(C) 出生體重小於1,500克的新生兒需要進行篩檢', '(D) 視網膜的缺氧是造成早產兒視網膜病變血管異常的原因']
+  },
+  {
+    q: '下列何者為第二型糖尿病視網膜病變的<em>正確</em>敘述？',
+    opts: ['(A) 第二型糖尿病病人患病20年後一定會有黃斑部水腫', '(B) 不需要擔心合併青光眼', '(C) 只有第一型糖尿病病人需定期檢查，第二型患者出現症狀再看眼科即可', '(D) 糖尿病病人出現飛蚊症，有可能是玻璃體出血所導致']
+  },
+  {
+    q: '有關中心性漿液性視網膜病變（CSCR）之敘述，下列<em>何者錯誤</em>？',
+    opts: ['(A) 男性較為常見', '(B) 可使用類固醇有效治療', '(C) 可能與生活壓力相關，可能會自行痊癒', '(D) 急性期若出現遠視可嘗試用凸透鏡（plus lens）改善視力']
+  },
+  {
+    q: '有關重症肌無力之敘述，下列<em>何者錯誤</em>？',
+    opts: ['(A) 重症肌無力是<em>感覺性</em>疾病，會引起眼瞼下垂及斜視', '(B) 大部分在成人才會發生', '(C) 是不正常的抗體阻礙了神經肌肉傳導', '(D) 應該先治療疾病，眼瞼下垂及斜視會有改善']
+  },
+  {
+    q: '眼內注射抑制新生血管因子抗體的治療，下列哪一種疾病<em>不適合</em>？',
+    opts: ['(A) 濕性老年性黃斑部病變', '(B) 糖尿病視網膜病變', '(C) 單純裂孔性視網膜剝離', '(D) 早產兒視網膜病變']
+  },
+  {
+    q: '伴隨高度近視而來的眼睛併發症，下列敘述<em>何者錯誤</em>？',
+    opts: ['(A) 視網膜剝離', '(B) 黃斑部病變', '(C) 青光眼', '(D) 葡萄膜炎']
+  }
+];
+
+function isCorrect(n, ans) {
+  if (!ans) return false;
+  var key = ANSWERS[n];
+  return Array.isArray(key) ? key.indexOf(ans) >= 0 : ans === key;
+}
+function showAnswer(n) {
+  var key = ANSWERS[n];
+  return Array.isArray(key) ? key.join(' 或 ') : key;
+}
+
+function renderQuestions() {
+  var html = '';
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var n = i + 1;
+    var q = QUESTIONS[i];
+    var opts = '';
+    for (var j = 0; j < q.opts.length; j++) {
+      opts += '<label class="opt" id="opt-' + n + '-' + letters[j] + '">' +
+        '<input type="radio" name="q' + n + '" value="' + letters[j] + '" onchange="onAnswer(' + n + ')">' +
+        '<span>' + q.opts[j] + '</span></label>';
+    }
+    html += '<div class="q-card" id="qcard-' + n + '">' +
+      '<div class="q-num"><span class="badge">' + n + '</span> 第 ' + n + ' 題</div>' +
+      '<div class="q-text">' + q.q + '</div>' +
+      '<div class="options">' + opts + '</div></div>';
+  }
+  document.getElementById('qcontainer').innerHTML = html;
+}
+
+var answered = {};
+function onAnswer(n) {
+  answered[n] = true;
+  var el = document.querySelector('input[name="q' + n + '"]:checked');
+  if (!el) return;
+  var val = el.value;
+  document.getElementById('qcard-' + n).classList.add('answered');
+  var letters = ['A','B','C','D'];
+  for (var j = 0; j < letters.length; j++) {
+    var o = document.getElementById('opt-' + n + '-' + letters[j]);
+    if (o) o.classList.toggle('selected', letters[j] === val);
+  }
+  var count = Object.keys(answered).length;
+  document.getElementById('prog-text').textContent = count + ' / 30';
+  document.getElementById('prog-fill').style.width = (count / 30 * 100) + '%';
+  startTimer();
+}
+
+function submitExam() {
+  var name = document.getElementById('s-name').value.trim();
+  var sid  = document.getElementById('s-id').value.trim();
+  var cls  = document.getElementById('s-class').value.trim();
+  if (!name || !sid) { alert('請填寫學號與姓名後再繳交！'); return; }
+  var doneCount = Object.keys(answered).length;
+  if (doneCount < 30) {
+    if (!confirm('還有 ' + (30 - doneCount) + ' 題未作答，確定要繳交嗎？')) return;
+  }
+  var studentAns = {};
+  for (var i = 1; i <= 30; i++) {
+    var el = document.querySelector('input[name="q' + i + '"]:checked');
+    studentAns[i] = el ? el.value : null;
+  }
+  var correct = 0;
+  for (var i = 1; i <= 30; i++) {
+    if (isCorrect(i, studentAns[i])) correct++;
+  }
+  var score = Math.max(0, 100 - (30 - correct) * 3);
+  var record = { id: Date.now(), name: name, sid: sid, cls: cls, answers: studentAns, score: score, correct: correct, time: new Date().toLocaleString('zh-TW') };
+  var all = JSON.parse(localStorage.getItem('eyeExamFinal') || '[]');
+  all.push(record);
+  localStorage.setItem('eyeExamFinal', JSON.stringify(all));
+  clearInterval(timerInterval);
+  showResult(record);
+  buildEmail(record);
+}
+
+function showResult(r) {
+  var grade = r.score >= 90 ? '優秀 🏆' : r.score >= 80 ? '良好 🌟' : r.score >= 70 ? '尚可 👍' : r.score >= 60 ? '及格 ✅' : '不及格 ❌';
+  var gradeColor = r.score >= 60 ? 'var(--accent)' : 'var(--danger)';
+  var html = '<div class="wrap"><div class="result-card">' +
+    '<div style="font-size:0.85rem;color:var(--gray-400);margin-bottom:0.5rem">' + r.name + '（' + r.sid + '）· ' + r.cls + '班 · ' + r.time + '</div>' +
+    '<div class="score-big">' + r.score + '<span> 分</span></div>' +
+    '<div class="score-sub">答對 ' + r.correct + ' / 30 題</div>' +
+    '<div class="score-grade" style="color:' + gradeColor + '">' + grade + '</div>' +
+    '</div><h3 style="font-size:1rem;color:var(--gray-700);margin-bottom:1rem;padding:0 0.25rem">📝 每題詳解</h3>';
+  for (var i = 1; i <= 30; i++) {
+    var sa = r.answers[i] || '未作答';
+    var ca = showAnswer(i);
+    var ok = isCorrect(i, r.answers[i]);
+    html += '<div class="review-card ' + (ok ? 'correct' : 'wrong') + '">' +
+      '<div class="review-status ' + (ok ? 'ok' : 'err') + '">' + (ok ? '✓ 答對' : '✗ 答錯') + ' — 第 ' + i + ' 題</div>' +
+      '<div class="q-text" style="font-size:0.88rem;margin:0.3rem 0">' + QUESTIONS[i-1].q + '</div>' +
+      '<div class="review-ans"><span class="correct-ans">正確答案：' + ca + '</span>' +
+      (!ok ? '<span style="margin:0 0.5rem;color:var(--gray-400)">|</span><span class="wrong-ans">你的答案：' + sa + '</span>' : '') +
+      '</div></div>';
+  }
+  html += '</div>';
+  document.getElementById('result-view').innerHTML = html;
+  switchView('result');
+}
+
+function buildEmail(r) {
+  var lines = [];
+  for (var i = 1; i <= 30; i++) {
+    lines.push('Q' + i + ': ' + (r.answers[i] || '未作答') + ' ' + (isCorrect(i, r.answers[i]) ? '✓' : '✗'));
+  }
+  var subj = encodeURIComponent('【眼疾病學研討期末】' + r.name + ' ' + r.sid + ' ' + r.cls + '班 ' + r.score + '分');
+  var body = encodeURIComponent('姓名：' + r.name + '\n學號：' + r.sid + '\n班級：' + r.cls + '\n分數：' + r.score + ' 分\n答對：' + r.correct + ' / 30 題\n繳交時間：' + r.time + '\n\n各題作答：\n' + lines.join('\n'));
+  document.getElementById('email-link').href = 'mailto:shelley09832420@gmail.com?subject=' + subj + '&body=' + body;
+  document.getElementById('email-float').style.display = 'block';
+}
+
+function switchTeacher() {
+  var pw = prompt('請輸入教師密碼：');
+  if (pw === null) return;
+  if (pw !== '60080') { alert('密碼錯誤，無法進入教師介面。'); return; }
+  switchView('teacher');
+  renderTeacher();
+}
+
+function renderTeacher() {
+  var all = JSON.parse(localStorage.getItem('eyeExamFinal') || '[]');
+  document.getElementById('st-count').textContent = all.length;
+  if (all.length > 0) {
+    var avg = 0; for (var i = 0; i < all.length; i++) avg += all[i].score; avg /= all.length;
+    var pass = 0; for (var i = 0; i < all.length; i++) if (all[i].score >= 60) pass++;
+    document.getElementById('st-avg').textContent = avg.toFixed(1);
+    document.getElementById('st-pass').textContent = Math.round(pass / all.length * 100) + '%';
+  } else {
+    document.getElementById('st-avg').textContent = '—';
+    document.getElementById('st-pass').textContent = '—';
+  }
+  var wrap = document.getElementById('tbl-wrap');
+  if (!all.length) { wrap.innerHTML = '<div class="empty"><div style="font-size:3rem">📭</div><p>尚無學生繳交記錄</p></div>'; return; }
+  var rows = '';
+  for (var i = 0; i < all.length; i++) {
+    var r = all[i];
+    rows += '<tr><td>' + (i+1) + '</td><td>' + (r.cls||'—') + '</td><td>' + r.sid + '</td><td>' + r.name + '</td>' +
+      '<td><span class="pill ' + (r.score>=60?'pass':'fail') + '">' + r.score + ' 分</span></td>' +
+      '<td>' + r.correct + ' / 30</td><td style="font-size:0.8rem;color:var(--gray-400)">' + r.time + '</td>' +
+      '<td><button class="btn-sm" onclick="showDetail(' + r.id + ')">詳細</button></td></tr>';
+  }
+  wrap.innerHTML = '<table><thead><tr><th>#</th><th>班級</th><th>學號</th><th>姓名</th><th>分數</th><th>答對</th><th>繳交時間</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
+}
+
+function showDetail(id) {
+  var all = JSON.parse(localStorage.getItem('eyeExamFinal') || '[]');
+  var r = null;
+  for (var i = 0; i < all.length; i++) { if (all[i].id === id) { r = all[i]; break; } }
+  if (!r) return;
+  document.getElementById('modal-title').textContent = r.name + '（' + r.sid + '）— ' + r.score + ' 分';
+  var html = '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">';
+  for (var i = 1; i <= 30; i++) {
+    var ok = isCorrect(i, r.answers[i]);
+    var bg = ok ? 'var(--accent-light)' : 'var(--danger-light)';
+    var col = ok ? 'var(--accent)' : 'var(--danger)';
+    html += '<div style="background:' + bg + ';border-radius:8px;padding:0.6rem;text-align:center">' +
+      '<div style="font-size:0.7rem;color:' + col + ';font-weight:600">第' + i + '題</div>' +
+      '<div style="font-size:1rem;font-weight:700;color:' + col + '">' + (r.answers[i]||'—') + '</div>' +
+      '<div style="font-size:0.7rem;color:var(--gray-400)">正：' + showAnswer(i) + '</div></div>';
+  }
+  html += '</div>';
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function clearAll() {
+  if (!confirm('確定要清除所有繳交記錄嗎？')) return;
+  localStorage.removeItem('eyeExamFinal');
+  renderTeacher();
+}
+
+function exportCSV() {
+  var all = JSON.parse(localStorage.getItem('eyeExamFinal') || '[]');
+  if (!all.length) { alert('尚無資料可匯出'); return; }
+  var header = ['姓名','學號','班級','分數','答對題數','繳交時間'];
+  for (var i = 1; i <= 30; i++) header.push('Q' + i + '_作答');
+  for (var i = 1; i <= 30; i++) header.push('Q' + i + '_正確');
+  var rows = [header.join(',')];
+  for (var j = 0; j < all.length; j++) {
+    var r = all[j];
+    var row = [r.name, r.sid, r.cls, r.score, r.correct, r.time];
+    for (var i = 1; i <= 30; i++) row.push(r.answers[i] || '');
+    for (var i = 1; i <= 30; i++) row.push(showAnswer(i));
+    rows.push(row.join(','));
+  }
+  var blob = new Blob(['\uFEFF' + rows.join('\n')], {type:'text/csv;charset=utf-8;'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = '眼疾病學研討期末成績.csv'; a.click();
+}
+
+function switchView(v) {
+  var views = document.querySelectorAll('.view');
+  for (var i = 0; i < views.length; i++) views[i].classList.remove('active');
+  document.getElementById(v + '-view').classList.add('active');
+  document.getElementById('btnStudent').classList.toggle('active', v === 'student');
+  document.getElementById('btnTeacher').classList.toggle('active', v === 'teacher');
+  if (v !== 'result') document.getElementById('email-float').style.display = 'none';
+}
+
+var timerInterval = null;
+var timeLeft = 75 * 60;
+var timerStarted = false;
+function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
+  document.getElementById('timerWrap').style.display = 'flex';
+  timerInterval = setInterval(function() {
+    timeLeft--;
+    var m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+    var s = String(timeLeft%60).padStart(2,'0');
+    var el = document.getElementById('timer');
+    el.textContent = m + ':' + s;
+    if (timeLeft <= 300) el.classList.add('warning');
+    if (timeLeft <= 0) { clearInterval(timerInterval); alert('考試時間到！'); submitExam(); }
+  }, 1000);
+}
+
+renderQuestions();
+</script>
+</body>
+</html>
